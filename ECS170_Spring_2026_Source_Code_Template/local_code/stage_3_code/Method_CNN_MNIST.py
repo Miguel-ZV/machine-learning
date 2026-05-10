@@ -42,17 +42,17 @@ class Method_CNN_MNIST(method, nn.Module):
         # insert number of channels (1) into tensor at index 1
         x = x.unsqueeze(1)
         # conv layers and pools
-        x = nn.functional.leaky_relu(self.conv1(x))
+        x = nn.functional.relu(self.conv1(x))
         x = nn.functional.max_pool2d(x,(2,2))
-        x = nn.functional.leaky_relu(self.conv2(x))
+        x = nn.functional.relu(self.conv2(x))
         x = nn.functional.max_pool2d(x, (2, 2))
-        x = nn.functional.leaky_relu(self.conv3(x))
+        x = nn.functional.relu(self.conv3(x))
         x = nn.functional.max_pool2d(x, (2, 2))
         # flatten
         x = torch.flatten(x, 1)
         # fc layers
-        x = nn.functional.leaky_relu(self.fc_layer_1(x))
-        x = nn.functional.leaky_relu(self.fc_layer_2(x))
+        x = nn.functional.relu(self.fc_layer_1(x))
+        x = nn.functional.relu(self.fc_layer_2(x))
         # output layer result
         y_pred = self.fc_layer_3(x)
         return y_pred
