@@ -101,7 +101,7 @@ class Method_CNN_CIFAR(method, nn.Module):
                 loss = train_loss.item()
                 epoch_loss += loss
 
-            loss_values.append(epoch_loss)
+            loss_values.append(epoch_loss/500)
 
             if epoch%10== 0:
                 print('Epoch:', epoch)
