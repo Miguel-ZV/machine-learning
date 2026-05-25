@@ -27,11 +27,11 @@ class Dataset_Loader(dataset):
     def load_glove(self):
         glove = {}
 
-        f = open(self.glove_source_folder_path + self.glove_file_name, 'r')
+        f = open(self.glove_source_folder_path + self.glove_file_name, 'r', encoding='utf-8')
         for line in f:
             split_line = line.split()
-            word = split_line[0]
-            embedding = np.array([float(val) for val in split_line[1:]])
+            word = " ".join(split_line[:-50])
+            embedding = np.array([float(val) for val in split_line[-50:]])
             glove[word] = embedding
         f.close()
 
@@ -44,7 +44,7 @@ class Dataset_Loader(dataset):
         stripped = [w.translate(table) for w in tokens]
         words = [word for word in stripped if word.isalpha()]
         words = [w for w in words if not w in self.stop_words]
-        embeddings = [glove[word] for word in words]
+        embeddings = [glove[word] if word in glove else [0]*50 for word in words]
 
         if len(embeddings) < self.data_instance_length:
             for i in range(self.data_instance_length - len(embeddings)):
@@ -67,7 +67,7 @@ class Dataset_Loader(dataset):
         # negative training reviews
         p = Path(self.dataset_source_folder_path + "/train/neg/")
         for instance in p.iterdir():
-            f = open(instance, 'r')
+            f = open(instance, 'r', encoding='utf-8')
             text = f.read()
             X_train.append(self.clean(text,glove))
             y_train.append(0)
@@ -76,7 +76,7 @@ class Dataset_Loader(dataset):
         # positive training reviews
         p = Path(self.dataset_source_folder_path + "/train/pos/")
         for instance in p.iterdir():
-            f = open(instance, 'r')
+            f = open(instance, 'r', encoding='utf-8')
             text = f.read()
             X_train.append(self.clean(text, glove))
             y_train.append(1)
@@ -85,7 +85,7 @@ class Dataset_Loader(dataset):
         # negative testing reviews
         p = Path(self.dataset_source_folder_path + "/test/neg/")
         for instance in p.iterdir():
-            f = open(instance, 'r')
+            f = open(instance, 'r', encoding='utf-8')
             text = f.read()
             X_test.append(self.clean(text, glove))
             y_test.append(0)
@@ -94,7 +94,7 @@ class Dataset_Loader(dataset):
         # positive testing reviews
         p = Path(self.dataset_source_folder_path + "/test/pos/")
         for instance in p.iterdir():
-            f = open(instance, 'r')
+            f = open(instance, 'r', encoding='utf-8')
             text = f.read()
             X_test.append(self.clean(text, glove))
             y_test.append(1)

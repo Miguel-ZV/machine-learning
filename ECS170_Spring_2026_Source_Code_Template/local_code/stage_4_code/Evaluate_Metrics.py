@@ -19,7 +19,7 @@ class Evaluate_Metrics(evaluate):
     def evaluate(self):
         #print('evaluating performance...')
         return {'accuracy': accuracy_score(self.data['true_y'],self.data['pred_y']),
-                'precision': precision_score(self.data['true_y'], self.data['pred_y'], average='macro', zero_division=0.0),
-                'recall': recall_score(self.data['true_y'], self.data['pred_y'], average='macro', zero_division=0.0),
-                'f1': f1_score(self.data['true_y'], self.data['pred_y'], average='macro')}
+                'precision': precision_score(self.data['true_y'], self.data['pred_y']),
+                'recall': recall_score(self.data['true_y'], self.data['pred_y']),
+                'f1': f1_score(self.data['true_y'], self.data['pred_y'])}
         
