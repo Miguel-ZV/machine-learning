@@ -25,8 +25,8 @@ class Method_GNN_Pubmed(method, nn.Module):
         method.__init__(self, mName, mDescription)
         nn.Module.__init__(self)
 
-        self.gc1 = GraphConvolution(500, 20)
-        self.gc2 = GraphConvolution(20, 6)
+        self.gc1 = GraphConvolution(500, 24)
+        self.gc2 = GraphConvolution(24, 3)
         self.dropout = 0.5
 
     def forward(self, x, adj):
